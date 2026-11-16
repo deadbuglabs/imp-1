@@ -33,6 +33,6 @@ pio run
 - Sub-GHz capture is FIFO-derived (the current board revision does not
   connect CC1101 GDO0/GDO2); true edge capture is an IMP-2 item.
 
-Project site: [github.com/tclover23/deadbuglabs](https://github.com/tclover23/deadbuglabs)
+Project site: [deadbuglabs.github.io](https://deadbuglabs.github.io)
 
 — Deadbug Labs
