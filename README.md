@@ -27,9 +27,13 @@ pio run
 - **U2F host interop is unverified** — the CTAP1/ECDSA engine compiles and
   is structurally complete; it has not yet been tested against a live host.
   It is the #1 bring-up verification item.
-- **The boards are not yet fabricated.** The main board is in respin and
-  the NFC board is in final routing; this firmware is ready to flash the
-  day a main board exists.
+- **The boards are not yet fabricated.** Main board v10 routing: the
+  braid re-lay pass is complete — 20 unconnected nets remain, with
+  0 clearance violations and 0 shorts. The NFC board is DRC-clean and
+  the IR board's routing is done. Gate 3 (PCB integrity) has not
+  passed: the remaining nets are sealed at placement level, and a
+  targeted hand micro-work pass is next. This firmware is ready to
+  flash the day a main board exists.
 - Sub-GHz capture is FIFO-derived (the current board revision does not
   connect CC1101 GDO0/GDO2); true edge capture is an IMP-2 item.
 
