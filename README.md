@@ -15,7 +15,7 @@ stubs that land on IMP-2 hardware.
 Clean build (PlatformIO, ESP32-S3):
 
 - **0 errors, 0 warnings**
-- RAM 41.2% · Flash 43.5%
+- RAM 41.2% · Flash 43.9%
 - Full detail: [BUILD_REPORT.md](BUILD_REPORT.md)
 
 ```sh
@@ -27,16 +27,19 @@ pio run
 - **U2F host interop is unverified** — the CTAP1/ECDSA engine compiles and
   is structurally complete; it has not yet been tested against a live host.
   It is the #1 bring-up verification item.
-- **The boards are not yet fabricated.** Main board v11 targeted
-  respin: 18 unconnected nets remain, with 0 clearance violations and
-  0 shorts; a v12 pass with the remaining escalation moves authorized
-  is under way. The NFC board is DRC-clean and the IR board's routing
-  is done. Gate 3 (PCB integrity) has not passed yet. This firmware
-  is ready to flash the day a main board exists.
+- **The boards are not yet fabricated.** Main board v13 (wider
+  respin): 17 unconnected nets remain, with 0 clearance violations
+  and 0 shorts; the remaining 17 are accepted bodge wires, one frozen
+  net, and fence-proven items measured in the routing log. The NFC
+  board is DRC-clean and the IR board's routing is done. Gate 3
+  (PCB integrity) has not passed yet. This firmware is ready to
+  flash the day a main board exists.
 - Sub-GHz capture is FIFO-derived (the current board revision does not
   connect CC1101 GDO0/GDO2); true edge capture is an IMP-2 item.
 
 ## Sponsors
+
+<a href="https://www.pcbway.com"><img src="https://pcbwayfile.s3.us-west-2.amazonaws.com/web/240304/PCBWay10BadgeContestLOGOdownload.svg" alt="PCBWay" height="44"></a>
 
 **[PCBWay](https://www.pcbway.com)** — 3D-printing sponsor: a USD 30
 3D-print credit (no expiry; splits across two orders), held until the
