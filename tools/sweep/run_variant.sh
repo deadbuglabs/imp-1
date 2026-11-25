@@ -68,12 +68,51 @@ if [ ! -f "$DRIVER" ]; then
 fi
 chmod +x "$DRIVER" 2>/dev/null || true
 
+# --- 3b. Live snapshots (A* variants only) ---
+# The watcher polls the driver's cumulative plan file ($OUT/plan.json,
+# checkpointed after every link — see tools/sweep/README.md) and pushes
+# delta snapshots to sweep-results as the traces land. Freerouting
+# variants never start it: the engine is a black box, replay only.
+# The watcher must never fail the job: it is best-effort, and a dead
+# watcher is covered by the --flush-only call in stop_watcher.
+SNAP_PID=""
+stop_watcher() {
+  if [ -n "$SNAP_PID" ] && kill -0 "$SNAP_PID" 2>/dev/null; then
+    kill -TERM "$SNAP_PID" 2>/dev/null || true
+    wait "$SNAP_PID" 2>/dev/null || true
+  fi
+  if [ -d "$OUT/snaps" ]; then
+    python3 tools/sweep/snap_watch.py --flush-only --plan "$OUT/plan.json" \
+      --snapdir "$OUT/snaps" --family "$FAMILY" --variant "$VARIANT" \
+      --run-number "$RUN_NUMBER" --run-id "$RUN_ID" \
+      --progress "$OUT/progress.jsonl" --drc "$OUT/drc.json" \
+      >> "$OUT/snap_watch.log" 2>&1 || echo "snapshot flush failed (non-fatal)"
+  fi
+  SNAP_PID=""
+}
+case "$VARIANT" in
+  astar-*)
+    export SWEEP_SNAP_DIR="$OUT/snaps" SWEEP_PLAN_PATH="$OUT/plan.json"
+    mkdir -p "$OUT/snaps"
+    python3 tools/sweep/snap_watch.py --plan "$OUT/plan.json" \
+      --snapdir "$OUT/snaps" --family "$FAMILY" --variant "$VARIANT" \
+      --run-number "$RUN_NUMBER" --run-id "$RUN_ID" \
+      --progress "$OUT/progress.jsonl" --drc "$OUT/drc.json" \
+      >> "$OUT/snap_watch.log" 2>&1 &
+    SNAP_PID=$!
+    echo "snapshot watcher started pid=$SNAP_PID (astar only)"
+    ;;
+esac
+
 # --- 4. Route (driver owns stages; it should call check_failfast.py
 #         after each stage and stop early when it cannot beat v15) ---
-bash "$DRIVER" "$VARIANT" "$OUT/board.kicad_pcb" "$OUT" || {
+bash "$DRIVER" "$VARIANT" "$OUT/board.kicad_pcb" "$OUT"
+DRIVER_RC=$?
+stop_watcher
+if [ "$DRIVER_RC" != "0" ]; then
   finish blocked "family driver exited non-zero for variant $VARIANT" "" "$OUT/baseline_counts.json"
   exit 0
-}
+fi
 
 # --- 5. Final DRC + verdict ---
 xvfb-run -a python3 tools/sweep/drc.py "$OUT/board.kicad_pcb" "$OUT/${FAMILY}-${VARIANT}_drc.txt" || { finish blocked "final DRC crashed (toolchain)"; exit 1; }
