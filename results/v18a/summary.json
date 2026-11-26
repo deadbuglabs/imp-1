@@ -2,8 +2,8 @@
   "schema": "imp1-sweep-summary/1",
   "family": "v18a",
   "board": "imp1_main_v18a",
-  "run_number": 2,
-  "run_id": "45732444116",
+  "run_number": 3,
+  "run_id": "45833191000",
   "v15_reference": {
     "unconnected": 15,
     "shorts": 0,
@@ -12,8 +12,8 @@
   "jobs": [
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S01",
       "status": "done",
@@ -61,7 +61,7 @@
         "unconnected_from": "header"
       },
       "board_md5": "bd18c8ff57ac31ce20f498a25c34bdc3",
-      "finished_utc": "2026-11-26T01:00:05Z",
+      "finished_utc": "2026-11-26T13:53:24Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -72,8 +72,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S02",
       "status": "done",
@@ -121,7 +121,7 @@
         "unconnected_from": "header"
       },
       "board_md5": "bd18c8ff57ac31ce20f498a25c34bdc3",
-      "finished_utc": "2026-11-26T00:59:53Z",
+      "finished_utc": "2026-11-26T13:53:07Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -132,8 +132,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S03",
       "status": "done",
@@ -181,7 +181,7 @@
         "unconnected_from": "header"
       },
       "board_md5": "bd18c8ff57ac31ce20f498a25c34bdc3",
-      "finished_utc": "2026-11-26T00:59:54Z",
+      "finished_utc": "2026-11-26T13:53:29Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -192,8 +192,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S04",
       "status": "failfast",
@@ -240,8 +240,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "cbb510d91ab5bcbe46b7f99e46c43234",
-      "finished_utc": "2026-11-26T01:01:21Z",
+      "board_md5": "216e8bc45d9f73a8fbd453a2917f717e",
+      "finished_utc": "2026-11-26T13:54:32Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -254,8 +254,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S05",
       "status": "failfast",
@@ -302,8 +302,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "dfe32686046a4e1504ca179a156276bd",
-      "finished_utc": "2026-11-26T01:03:07Z",
+      "board_md5": "852ba426885c1c834955c193fb6547e2",
+      "finished_utc": "2026-11-26T13:57:15Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -316,8 +316,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S06",
       "status": "failfast",
@@ -364,8 +364,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "5e4860c2ad8b9cc8d09de3379cbaf83e",
-      "finished_utc": "2026-11-26T01:00:11Z",
+      "board_md5": "e2f5a142bbbb216ad8d67dd34ad01852",
+      "finished_utc": "2026-11-26T13:54:30Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -378,70 +378,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
-      "family": "v18a",
-      "variant": "S07",
-      "status": "failfast",
-      "reason": "failfast after phase C-signals unc=127",
-      "v15_reference": {
-        "unconnected": 15,
-        "shorts": 0,
-        "clearance": 0
-      },
-      "verdict_vs_v15": "no-beat",
-      "drc": {
-        "unconnected": 127,
-        "clearance": 5,
-        "shorts": 0,
-        "total": 518,
-        "footprint_errors": 0,
-        "courtyards_overlap": 27,
-        "hole_clearance": 4,
-        "items_not_allowed": 31,
-        "lib_footprint_issues": 93,
-        "silk_edge_clearance": 27,
-        "silk_over_copper": 76,
-        "silk_overlap": 199,
-        "track_dangling": 47,
-        "unconnected_items": 127,
-        "via_dangling": 9,
-        "unconnected_from": "header"
-      },
-      "baseline_drc": {
-        "unconnected": 146,
-        "clearance": 0,
-        "shorts": 0,
-        "total": 525,
-        "footprint_errors": 0,
-        "courtyards_overlap": 27,
-        "hole_clearance": 4,
-        "items_not_allowed": 31,
-        "lib_footprint_issues": 93,
-        "silk_edge_clearance": 27,
-        "silk_over_copper": 76,
-        "silk_overlap": 199,
-        "track_dangling": 59,
-        "unconnected_items": 146,
-        "via_dangling": 9,
-        "unconnected_from": "header"
-      },
-      "board_md5": "88580b79a9c718c1185c30577b98aa8d",
-      "finished_utc": "2026-11-26T01:04:28Z",
-      "cell_state": {
-        "chunks": 0,
-        "stall": 0,
-        "done_phases": [
-          "C-signals"
-        ],
-        "resume_from": "pristine",
-        "checkpoint_ref": "results/v18a/S07-state.json"
-      }
-    },
-    {
-      "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S08",
       "status": "done",
@@ -488,8 +426,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "d3bf2087d0d23f7f17969607884cc304",
-      "finished_utc": "2026-11-26T01:23:58Z",
+      "board_md5": "10ee490e22d516f421204f0a7d9316d4",
+      "finished_utc": "2026-11-26T14:18:38Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -505,8 +443,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S09",
       "status": "failfast",
@@ -553,8 +491,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "a8e271c8addb57e3a601315697b5c17c",
-      "finished_utc": "2026-11-26T01:03:18Z",
+      "board_md5": "bd1c3921f10def73d8c80ae1c4228280",
+      "finished_utc": "2026-11-26T13:56:53Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -567,8 +505,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S10",
       "status": "failfast",
@@ -615,8 +553,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "2cebb2228f365cea0565d7ade9f6e9d6",
-      "finished_utc": "2026-11-26T01:01:52Z",
+      "board_md5": "771d82f96109364a440afc6ddf0e2b0a",
+      "finished_utc": "2026-11-26T13:54:33Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -629,8 +567,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S11",
       "status": "failfast",
@@ -677,8 +615,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "f4a3aec4186babda8e323b26a4561bb7",
-      "finished_utc": "2026-11-26T01:01:36Z",
+      "board_md5": "060f9bd10ae20166e44696cc38341925",
+      "finished_utc": "2026-11-26T13:54:54Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -691,8 +629,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S12",
       "status": "failfast",
@@ -739,8 +677,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "f66199b305e83e302615156f6ede65ed",
-      "finished_utc": "2026-11-26T01:01:39Z",
+      "board_md5": "879d99067b308a5d051bd434df2b7da3",
+      "finished_utc": "2026-11-26T13:57:03Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
@@ -753,8 +691,8 @@
     },
     {
       "schema": "imp1-sweep-result/1",
-      "run_number": 2,
-      "run_id": "45732444116",
+      "run_number": 3,
+      "run_id": "45833191000",
       "family": "v18a",
       "variant": "S13",
       "status": "failfast",
@@ -801,8 +739,8 @@
         "via_dangling": 9,
         "unconnected_from": "header"
       },
-      "board_md5": "0b613fdbc1cac00d8d653032a8c480cf",
-      "finished_utc": "2026-11-26T01:09:36Z",
+      "board_md5": "236e77570ceaf42b2e2144c3fa6ebcaa",
+      "finished_utc": "2026-11-26T14:03:12Z",
       "cell_state": {
         "chunks": 0,
         "stall": 0,
