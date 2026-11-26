@@ -1,8 +1,12 @@
 # IMP-2 sweep matrix — design + evidence
 
-Reference: IMP-2 layout pass 2, `imp2_layout.kicad_pcb` md5
+Reference: IMP-2 layout pass 2. Banked best `imp2_layout.kicad_pcb` md5
 `4864210b6cce60b3e11ee53a8a3a5d43`, DRC **134 unconnected / 0 shorts /
-12 clearance** (total 412). All counts below are from
+12 clearance** (total 412). Family board `imp2_placement.kicad_pcb`
+md5 `3a304bde7b3646c6b08cda668a77b53d` — the pass-2 placement rebuilt from
+stage2 + the verbatim `pass2_zones.py` GND-zone recipe, 0 tracks, 0 vias;
+verified baseline **283/0/12, total 391** (exactly the log's placement
+baseline). All counts below are from
 `files/designs/imp2/layout/ROUTING_LOG.md` + the committed
 `imp2_layout_drc.rpt` (re-parsed 2026-11-25: 134/0/12, total 412 —
 matches the log exactly), unless noted.
@@ -13,9 +17,11 @@ The pass-2 log's verdict: "the remaining opens are dense-fanout work
 (U1 0.5 mm castellation escape, U12 0.4 mm pitch with 0.6/0.3 mm vias)
 that needs an interactive pass or a placement/fanout change, not more
 autorouter passes." So the family axis is WHICH dense-fanout problem the
-interactive pass attacks first. All four families share the reference
-board; they differ by driver stage order (targeted stages are TODO in v1
-— the wrappers run the shared Freerouting control stage and say so).
+interactive pass attacks first. All four families share the placement
+board (`imp2_placement.kicad_pcb`, baseline 283/0/12); they differ by
+driver stage order (targeted stages are TODO in v1 — the wrappers run the
+shared Freerouting control stage and say so). The banked 134 board is the
+number to beat, never a board to route over.
 
 | Family | Strategy | Evidence (opens) |
 |---|---|---|

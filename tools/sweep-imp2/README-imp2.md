@@ -5,37 +5,54 @@ adapted from the proven IMP-1 sweep (`tools/sweep/`, repo commit ec33efce).
 Same repo (`deadbuglabs/imp-1`), same `sweep-results` branch, results
 namespaced under `results/imp2/` so they never collide with IMP-1's.
 
-## Reference
+## Reference — two boards, like IMP-1 (v15 banked vs v18a placements)
 
-- Source board: `hardware/pcb/imp2/imp2_layout.kicad_pcb` — IMP-2 layout
-  pass 2, Freerouting `-mp 3` keeper: **134 unconnected / 0 shorts /
-  12 clearance** (md5 `4864210b6cce60b3e11ee53a8a3a5d43`). The `.kicad_pro`
-  sibling must stay name-matched, or KiCad falls back to default project
-  settings and the counts inflate. The 12 clearance are FENCED: all 12 cite
-  U12 pads (0.4 mm-pitch pads 0.15 mm apart vs the 0.2 mm Default netclass)
-  — footprint-vs-rule mismatch, within standard 4-layer fab capability.
-  Total DRC violations 412 (incl. 9 copper_edge_clearance, 36
-  starved_thermal, 12 drill_out_of_range, 1 hole_clearance, 108
-  silk_overlap, 81 silk_over_copper, 10 silk_edge_clearance, 143
-  lib_footprint_issues — bookkeeping/cosmetic classes, not the headline).
+- Banked reference (verdicts + toolchain smoke ONLY):
+  `hardware/pcb/imp2/imp2_layout.kicad_pcb` — IMP-2 layout pass 2,
+  Freerouting `-mp 3` keeper: **134 unconnected / 0 shorts / 12 clearance**
+  (md5 `4864210b6cce60b3e11ee53a8a3a5d43`). NEVER routed over: routing it
+  again stacks a second route on the first (proven locally 2026-11-25:
+  FR mp1 on it gave 132 with 179 `holes_co_located` duplicate vias).
+- Family board (what sweep jobs actually route):
+  `hardware/pcb/imp2/imp2_placement.kicad_pcb` — the pass-2 placement
+  rebuilt from `imp2_layout_stage2.kicad_pcb` + the verbatim
+  `pass2_zones.py` GND-zone recipe (3 zones, 0.25 mm clearance).
+  0 tracks, 0 vias, 143 footprints (md5
+  `3a304bde7b3646c6b08cda668a77b53d`). Verified baseline **283 unconnected
+  / 0 shorts / 12 clearance**, total 391 — exactly the log's placement
+  baseline. All families share it in v1; families differ by driver.
+- The `.kicad_pro` sibling must stay name-matched for each board, or KiCad
+  falls back to default project settings and the counts inflate. The 12
+  clearance are FENCED: all 12 cite U12 pads (0.4 mm-pitch pads 0.15 mm
+  apart vs the 0.2 mm Default netclass) — footprint-vs-rule mismatch,
+  within standard 4-layer fab capability. Total DRC violations on the
+  banked board: 412 (incl. 9 copper_edge_clearance, 36 starved_thermal,
+  12 drill_out_of_range, 1 hole_clearance, 108 silk_overlap, 81
+  silk_over_copper, 10 silk_edge_clearance, 143 lib_footprint_issues —
+  bookkeeping/cosmetic classes, not the headline).
 - The board is NOT DRC-clean and NOT fab-ready. Finish line: DRC-clean
   (0/0/0). Beating the 134 reference is progress toward it, not a pass.
 - Local validation (2026-11-25, KiCad 7.0.11, before the push): DRC on the
-  staged board reproduced 134/0/12 EXACTLY, per-type counts identical to
-  `imp2_layout_drc.rpt` (see `validation/VALIDATION.md`). `check_imp2.py`
-  70/70 PASS on the schematic netlist.
+  staged banked board reproduced 134/0/12 EXACTLY, per-type counts
+  identical to `imp2_layout_drc.rpt`; DRC on the rebuilt placement
+  reproduced the log's placement baseline 283/0/12 EXACTLY (total 391).
+  Full driver loop proven on the placement board (DSN export -> FR mp1 ->
+  SES import -> DRC; see `validation/VALIDATION.md`).
+  `check_imp2.py` 70/70 PASS on the schematic netlist.
 
 ## What changed vs the IMP-1 harness (and why — all deliberate)
 
 Shared core copied verbatim (identical files): `drc.py`, `parse_drc.py`,
 `export_dsn.py`, `import_ses.py`. IMP-2-specific, parameterized:
-- `run_variant_imp2.sh` — reference board is a SINGLE board shared by all
-  families (`hardware/pcb/imp2/imp2_layout.kicad_pcb`); families differ by
-  DRIVER (interactive-pass strategy), not by board. Baseline DRC must
-  reproduce 134/0/12 exactly or the job reports `blocked` ("reference
-  drift"). Placement gate allows clearance == 12 (fenced) and blocks only
-  growth above 12 — IMP-1's gate (clearance > 0 blocks) would block every
-  IMP-2 job before routing.
+- `run_variant_imp2.sh` — family board is the shared placement
+  (`hardware/pcb/imp2/imp2_placement.kicad_pcb`); families differ by
+  DRIVER (interactive-pass strategy), not by board. The banked 134 board
+  is NEVER routed over (see Reference). Placement gate allows clearance
+  == 12 (fenced) and blocks only growth above 12 — IMP-1's gate
+  (clearance > 0 blocks) would block every IMP-2 job before routing.
+  The family board's baseline is not checked against 134 (it is a
+  placement: v1 baseline 283/0/12); the toolchain job checks the banked
+  134 board instead.
 - `write_results_imp2.py` — schema `imp2-sweep-result/1`, reference
   134/0/12. `beat` = unconnected < 134 AND shorts == 0 AND clearance <= 12.
   Clearance growth above 12 is always `no-beat`.

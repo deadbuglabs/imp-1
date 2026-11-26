@@ -3,15 +3,27 @@
 #   run_variant_imp2.sh <family> <variant> <run_number> <run_id>
 # Adapted from tools/sweep/run_variant.sh (IMP-1). Differences, all
 # deliberate — see tools/sweep-imp2/README-imp2.md:
-#   - Reference board is IMP-2 layout pass 2, shared by every family:
-#     hardware/pcb/imp2/imp2_layout.kicad_pcb (+ name-matched .kicad_pro).
-#     Families differ by DRIVER (interactive-pass strategy), not by board.
-#   - Reference counts 134 unconnected / 0 shorts / 12 clearance. The 12
+#   - TWO boards, like IMP-1 (v15 banked reference vs v18a family
+#     placements):
+#       * Banked reference (verdicts + toolchain smoke ONLY):
+#         hardware/pcb/imp2/imp2_layout.kicad_pcb — the pass-2 mp3 keeper,
+#         134/0/12. NEVER routed over: routing it again stacks a second
+#         route on the first (proven locally 2026-11-25: FR mp1 on it gave
+#         132 with 179 holes_co_located duplicate vias).
+#       * Family board (what jobs actually route):
+#         hardware/pcb/imp2/imp2_placement.kicad_pcb — the pass-2 placement
+#         rebuilt from stage2 + the verbatim pass2_zones.py GND-zone recipe
+#         (3 zones, 0.25 mm clearance). 0 tracks, 0 vias, 143 footprints.
+#         Verified baseline 283 unconnected / 0 shorts / 12 clearance,
+#         total 391 — exactly the log's placement baseline. All families
+#         share it in v1; families differ by DRIVER, not by board.
+#   - Reference counts for verdicts 134/0/12 (the banked best). The 12
 #     clearance are FENCED (U12 0.4 mm-pitch pads at 0.15 mm vs the 0.2 mm
 #     rule). The placement gate therefore allows clearance == 12 and blocks
 #     only growth above 12 — IMP-1's gate (clearance > 0 blocks) would block
-#     every IMP-2 job before routing. Baseline must reproduce 134/0/12
-#     EXACTLY or the job reports blocked ("reference drift").
+#     every IMP-2 job before routing. The family board's baseline is NOT
+#     checked against 134 (it is a placement: v1 baseline is 283); the
+#     toolchain job checks the banked 134 board instead.
 #   - Verdict vs 134 (write_results_imp2.py, schema imp2-sweep-result/1).
 #     Finish line is DRC-clean (0/0/0); beating 134 is progress, not a pass.
 #   - NO snapshot watcher: the v1 matrix is Freerouting-only and
@@ -28,8 +40,8 @@ FAMILY=$1; VARIANT=$2; RUN_NUMBER=$3; RUN_ID=$4
 ROOT=$(pwd)
 OUT=$ROOT/out
 mkdir -p "$OUT"
-BOARD_SRC=$ROOT/hardware/pcb/imp2/imp2_layout.kicad_pcb
-PRO_SRC=$ROOT/hardware/pcb/imp2/imp2_layout.kicad_pro
+BOARD_SRC=$ROOT/hardware/pcb/imp2/imp2_placement.kicad_pcb
+PRO_SRC=$ROOT/hardware/pcb/imp2/imp2_placement.kicad_pro
 RESULT=$OUT/${FAMILY}-${VARIANT}.json
 REF_UNC=134; REF_SHORTS=0; REF_CLR=12
 
@@ -48,28 +60,24 @@ finish() { # finish <status> <reason> [counts.json] [baseline.json]
 
 # --- 1. Reference board present? ---
 if [ ! -f "$BOARD_SRC" ]; then
-  finish blocked "reference board hardware/pcb/imp2/imp2_layout.kicad_pcb not in repo yet"
+  finish blocked "family board hardware/pcb/imp2/imp2_placement.kicad_pcb not in repo yet"
   exit 0
 fi
 if [ ! -f "$PRO_SRC" ]; then
-  finish blocked "reference board present but name-matched .kicad_pro missing (DRC counts would be wrong without project settings)"
+  finish blocked "family board present but name-matched .kicad_pro missing (DRC counts would be wrong without project settings)"
   exit 0
 fi
 cp "$BOARD_SRC" "$PRO_SRC" "$OUT/"
-mv "$OUT/imp2_layout.kicad_pcb" "$OUT/board.kicad_pcb"
-mv "$OUT/imp2_layout.kicad_pro" "$OUT/board.kicad_pro"
+mv "$OUT/imp2_placement.kicad_pcb" "$OUT/board.kicad_pcb"
+mv "$OUT/imp2_placement.kicad_pro" "$OUT/board.kicad_pro"
 
-# --- 2. Baseline DRC + placement gate (must reproduce 134/0/12 exactly) ---
+# --- 2. Baseline DRC + placement gate (placement baseline, v1: 283/0/12) ---
 xvfb-run -a python3 tools/sweep-imp2/drc.py "$OUT/board.kicad_pcb" "$OUT/baseline_drc.txt" || { finish blocked "baseline DRC crashed (toolchain)"; exit 1; }
 python3 tools/sweep-imp2/parse_drc.py "$OUT/baseline_drc.txt" "$OUT/baseline_counts.json"
 BASE_UNC=$(python3 -c "import json; print(json.load(open('$OUT/baseline_counts.json'))['unconnected'])")
 BASE_SHORTS=$(python3 -c "import json; print(json.load(open('$OUT/baseline_counts.json'))['shorts'])")
 BASE_CLR=$(python3 -c "import json; print(json.load(open('$OUT/baseline_counts.json'))['clearance'])")
-echo "baseline: unconnected=$BASE_UNC shorts=$BASE_SHORTS clearance=$BASE_CLR (reference 134/0/12)"
-if [ "$BASE_UNC" != "$REF_UNC" ] || [ "$BASE_SHORTS" != "$REF_SHORTS" ] || [ "$BASE_CLR" != "$REF_CLR" ]; then
-  finish blocked "reference drift: baseline DRC is $BASE_UNC/$BASE_SHORTS/$BASE_CLR, expected 134/0/12 — board changed without a reference update" "" "$OUT/baseline_counts.json"
-  exit 0
-fi
+echo "baseline: unconnected=$BASE_UNC shorts=$BASE_SHORTS clearance=$BASE_CLR (v1 placement baseline 283/0/12; reference to beat 134/0/12)"
 if [ "$BASE_SHORTS" != "0" ]; then
   finish blocked "placement gate: baseline has $BASE_SHORTS shorts before any routing" "" "$OUT/baseline_counts.json"
   exit 0
