@@ -1,0 +1,51 @@
+{
+  "schema": "imp2-sweep-result/1",
+  "board": "imp2",
+  "run_number": 3,
+  "run_id": "45828448276",
+  "family": "i2a",
+  "variant": "fr-mp1",
+  "status": "done",
+  "reason": "routed to 189 unconnected, clearance 12, did not beat reference (134/0/12) [driver: family i2a (U7-first): targeted escape stage not yet implemented; control FR stage only]",
+  "reference": {
+    "unconnected": 134,
+    "shorts": 0,
+    "clearance": 12
+  },
+  "verdict_vs_reference": "no-beat",
+  "drc": {
+    "unconnected": 189,
+    "clearance": 12,
+    "shorts": 0,
+    "total": 413,
+    "footprint_errors": 0,
+    "copper_edge_clearance": 3,
+    "drill_out_of_range": 12,
+    "hole_clearance": 1,
+    "lib_footprint_issues": 143,
+    "silk_edge_clearance": 10,
+    "silk_over_copper": 81,
+    "silk_overlap": 108,
+    "starved_thermal": 43,
+    "unconnected_items": 189,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": {
+    "unconnected": 283,
+    "clearance": 12,
+    "shorts": 0,
+    "total": 391,
+    "footprint_errors": 0,
+    "drill_out_of_range": 12,
+    "hole_clearance": 1,
+    "lib_footprint_issues": 143,
+    "silk_edge_clearance": 10,
+    "silk_over_copper": 81,
+    "silk_overlap": 108,
+    "starved_thermal": 24,
+    "unconnected_items": 283,
+    "unconnected_from": "header"
+  },
+  "board_md5": "ccd4968865648a9d5748e15047677176",
+  "finished_utc": "2026-11-26T13:24:21Z"
+}
