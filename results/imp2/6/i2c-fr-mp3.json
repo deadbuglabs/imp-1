@@ -1,0 +1,51 @@
+{
+  "schema": "imp2-sweep-result/1",
+  "board": "imp2",
+  "run_number": 6,
+  "run_id": "46084621426",
+  "family": "i2c",
+  "variant": "fr-mp3",
+  "status": "done",
+  "reason": "routed to 123 unconnected, clearance 12 (reference is 134/0/12) [driver: family i2c (power-first): targeted power stage not yet implemented; control FR stage only]",
+  "reference": {
+    "unconnected": 134,
+    "shorts": 0,
+    "clearance": 12
+  },
+  "verdict_vs_reference": "beat",
+  "drc": {
+    "unconnected": 123,
+    "clearance": 12,
+    "shorts": 0,
+    "total": 404,
+    "footprint_errors": 0,
+    "copper_edge_clearance": 3,
+    "drill_out_of_range": 12,
+    "hole_clearance": 1,
+    "lib_footprint_issues": 143,
+    "silk_edge_clearance": 10,
+    "silk_over_copper": 81,
+    "silk_overlap": 108,
+    "starved_thermal": 34,
+    "unconnected_items": 123,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": {
+    "unconnected": 283,
+    "clearance": 12,
+    "shorts": 0,
+    "total": 391,
+    "footprint_errors": 0,
+    "drill_out_of_range": 12,
+    "hole_clearance": 1,
+    "lib_footprint_issues": 143,
+    "silk_edge_clearance": 10,
+    "silk_over_copper": 81,
+    "silk_overlap": 108,
+    "starved_thermal": 24,
+    "unconnected_items": 283,
+    "unconnected_from": "header"
+  },
+  "board_md5": "80d23203c2bf9c17e8c4bd4cc8d223ab",
+  "finished_utc": "2026-11-27T23:54:17Z"
+}
