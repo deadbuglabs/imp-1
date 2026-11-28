@@ -316,7 +316,7 @@ jobs:
             git -C /tmp/sweep-results-wt checkout --orphan sweep-results
             git -C /tmp/sweep-results-wt rm -rf . 2>/dev/null || true
           fi
-          mkdir -p "/tmp/sweep-results-wt/results/${{ github.run_number }}/history"
+          mkdir -p "/tmp/sweep-results-wt/results/history"
           cp summary-out/summary.json "/tmp/sweep-results-wt/results/summary.json"
           cp summary-out/summary.json "/tmp/sweep-results-wt/results/history/${{ github.run_number }}-summary.json"
           cd /tmp/sweep-results-wt
