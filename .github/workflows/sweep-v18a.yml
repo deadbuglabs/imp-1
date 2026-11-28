@@ -254,18 +254,27 @@ jobs:
           set -e
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git fetch origin sweep-results 2>/dev/null || true
+          if git ls-remote --exit-code --heads origin sweep-results >/dev/null 2>&1; then
+            git fetch --no-tags origin refs/heads/sweep-results:refs/remotes/origin/sweep-results
+          else
+            fetch_status=$?
+            if [ "$fetch_status" -ne 2 ]; then
+              echo "failed to check/fetch origin sweep-results"
+              exit "$fetch_status"
+            fi
+          fi
           # run_cell.sh expects the worktree at $WORKDIR/sweep-results and
           # resumes from results/v18a/<cell>-state.json inside it.
           WT="out/${{ matrix.cell }}/sweep-results"
           mkdir -p "out/${{ matrix.cell }}"
           rm -rf "$WT"
           if git rev-parse --verify origin/sweep-results >/dev/null 2>&1; then
-            git worktree add "$WT" sweep-results
+            git worktree add --detach "$WT" origin/sweep-results
           else
             git worktree add --detach "$WT"
             git -C "$WT" checkout --orphan sweep-results
-            git -C "$WT" rm -rf . 2>/dev/null || true
+            git -C "$WT" read-tree --empty
+            git -C "$WT" clean -fdx
           fi
           if [ -f "$WT/results/v18a/${{ matrix.cell }}-state.json" ]; then
             echo "resume state present for ${{ matrix.cell }}"
@@ -332,8 +341,18 @@ jobs:
               cp -r "out/${{ matrix.cell }}/cell-artifacts/${{ matrix.cell }}/." "$WT/results/v18a/${{ matrix.cell }}/"
             fi
             cd "$WT"
-            git add "results/v18a/${{ github.run_number }}/${{ matrix.cell }}.json" results/v18a/${{ matrix.cell }}-state.json "results/v18a/${{ matrix.cell }}/" 2>/dev/null || true
-            git commit -m "v18a sweep run ${{ github.run_number }}: ${{ matrix.cell }}" || echo 'nothing to commit'
+            git add "results/v18a/${{ github.run_number }}/${{ matrix.cell }}.json"
+            if [ -f "results/v18a/${{ matrix.cell }}-state.json" ]; then
+              git add "results/v18a/${{ matrix.cell }}-state.json"
+            fi
+            if [ -d "results/v18a/${{ matrix.cell }}" ]; then
+              git add "results/v18a/${{ matrix.cell }}/"
+            fi
+            if git diff --cached --quiet; then
+              echo 'nothing staged; nothing to commit'
+              exit 0
+            fi
+            git commit -m "v18a sweep run ${{ github.run_number }}: ${{ matrix.cell }}"
             git push origin sweep-results || (git pull --rebase origin sweep-results && git push origin sweep-results)
             cd "$GITHUB_WORKSPACE"
           fi
@@ -376,7 +395,7 @@ jobs:
   aggregate:
     name: Aggregate live summary
     needs: [setup, cells]
-    if: always() && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+    if: always() && needs.setup.result == 'success' && needs.cells.result == 'success' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -428,21 +447,53 @@ jobs:
           set -e
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git fetch origin sweep-results 2>/dev/null || true
+          if git ls-remote --exit-code --heads origin sweep-results >/dev/null 2>&1; then
+            git fetch --no-tags origin refs/heads/sweep-results:refs/remotes/origin/sweep-results
+          else
+            fetch_status=$?
+            if [ "$fetch_status" -ne 2 ]; then
+              echo "failed to check/fetch origin sweep-results"
+              exit "$fetch_status"
+            fi
+          fi
           rm -rf /tmp/sweep-results-wt-v18a
           if git rev-parse --verify origin/sweep-results >/dev/null 2>&1; then
             git worktree add /tmp/sweep-results-wt-v18a sweep-results
           else
             git worktree add --detach /tmp/sweep-results-wt-v18a
             git -C /tmp/sweep-results-wt-v18a checkout --orphan sweep-results
-            git -C /tmp/sweep-results-wt-v18a rm -rf . 2>/dev/null || true
+            git -C /tmp/sweep-results-wt-v18a read-tree --empty
+            git -C /tmp/sweep-results-wt-v18a clean -fdx
           fi
           mkdir -p "/tmp/sweep-results-wt-v18a/results/v18a/history"
           cp summary-out/summary.json "/tmp/sweep-results-wt-v18a/results/v18a/summary.json"
           cp summary-out/summary.json "/tmp/sweep-results-wt-v18a/results/v18a/history/${{ github.run_number }}-summary.json"
           cd /tmp/sweep-results-wt-v18a
           git add results/v18a/summary.json "results/v18a/history/${{ github.run_number }}-summary.json"
-          git commit -m "v18a sweep summary run ${{ github.run_number }}" || echo 'nothing to commit'
-          git push origin sweep-results || (git pull --rebase origin sweep-results && git push origin sweep-results)
+          if git diff --cached --quiet; then
+            echo 'nothing staged; nothing to commit'
+            cd "$GITHUB_WORKSPACE"
+            git worktree remove --force /tmp/sweep-results-wt-v18a
+            exit 0
+          fi
+          git commit -m "v18a sweep summary run ${{ github.run_number }}"
+          for i in 1 2 3 4 5; do
+            if git push origin sweep-results; then
+              break
+            fi
+            if [ "$i" -eq 5 ]; then
+              echo 'push failed after 5 attempts'
+              exit 1
+            fi
+            echo "push failed; rebasing before retry $((i + 1))/5"
+            if ! git pull --rebase origin sweep-results; then
+              git rebase --abort 2>/dev/null || true
+            fi
+            delay=$((1 << (i - 1)))
+            jitter=$((RANDOM % (delay + 1)))
+            wait_seconds=$((delay + jitter))
+            echo "waiting ${wait_seconds}s before next push attempt"
+            sleep "$wait_seconds"
+          done
           cd "$GITHUB_WORKSPACE"
           git worktree remove --force /tmp/sweep-results-wt-v18a
