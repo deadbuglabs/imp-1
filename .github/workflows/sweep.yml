@@ -72,9 +72,9 @@ jobs:
           allowed_fams = {'v18a', 'v18b', 'v18c', 'v18d'}
           allowed_vars = {'astar-0.05', 'freerouting-mp3', 'astar-0.02', 'astar-0.09', 'freerouting-mp1', 'freerouting-mp10'}
           if not fams or set(fams) - allowed_fams:
-          raise SystemExit('invalid families: %s' % ','.join(sorted(set(fams) - allowed_fams)))
+              raise SystemExit('invalid families: %s' % ','.join(sorted(set(fams) - allowed_fams)))
           if not vars_ or set(vars_) - allowed_vars:
-          raise SystemExit('invalid variants: %s' % ','.join(sorted(set(vars_) - allowed_vars)))
+              raise SystemExit('invalid variants: %s' % ','.join(sorted(set(vars_) - allowed_vars)))
           combos = [{'family': f, 'variant': v} for f in fams for v in vars_]
           out = os.environ['GITHUB_OUTPUT']
           with open(out, 'a') as fh:
@@ -247,7 +247,7 @@ jobs:
               r = json.load(open(p))
           except Exception as e:
               print('no results JSON:', e)
-              raise SystemExit(0)
+                  raise SystemExit(0)
           d = r.get('drc') or {}
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
               fh.write('## %s / %s — %s\n\n' % (r['family'], r['variant'], r['status']))
