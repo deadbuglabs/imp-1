@@ -330,7 +330,7 @@ jobs:
             git -C /tmp/sweep-results-wt-imp2 checkout --orphan sweep-results
             git -C /tmp/sweep-results-wt-imp2 rm -rf . 2>/dev/null || true
           fi
-          mkdir -p "/tmp/sweep-results-wt-imp2/results/imp2/${{ github.run_number }}/history"
+          mkdir -p "/tmp/sweep-results-wt-imp2/results/imp2/history"
           cp summary-out/summary.json "/tmp/sweep-results-wt-imp2/results/imp2/summary.json"
           cp summary-out/summary.json "/tmp/sweep-results-wt-imp2/results/imp2/history/${{ github.run_number }}-summary.json"
           cd /tmp/sweep-results-wt-imp2
