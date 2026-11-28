@@ -370,6 +370,7 @@ run_stage() { # <counts-file> <stage-name> <command...>
 case "$VARIANT" in
   astar-0.02|astar-0.05|astar-0.09)
     MF=${VARIANT#astar-}
+    export SWEEP_CONGESTION_WEIGHT=${SWEEP_CONGESTION_WEIGHT:-1.5}
     # blib18b needs numpy/PIL/scipy; the workflow installs kicad only, so
     # fetch them here if missing (apt, same lists the workflow updated).
     python3 -c "import numpy, PIL, scipy, wx, pcbnew" 2>/dev/null || {

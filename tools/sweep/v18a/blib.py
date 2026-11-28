@@ -325,6 +325,8 @@ def label_at(B, lab, net, x, y, layer=None):
 # ---------------- A* router ----------------
 MF = 0.09   # foreign-copper margin (scout runs may relax; DRC arbitrates)
 MK = 0.05   # keepout/edge margin
+CONGESTION_WEIGHT = 0.0
+CONGESTION_DECAY = 0.20 # mm: how quickly the soft penalty fades with clearance slack
 
 def route(B, net, lab, compA, compB, width=0.25, via_cost=30.0, extra_block=None):
     """A* from any cell of compA to any cell of compB. Returns (tracks, vias):
@@ -395,7 +397,9 @@ def route(B, net, lab, compA, compB, width=0.25, via_cost=30.0, extra_block=None
             nx, ny = xx+dx, yy+dy
             if not (0 <= nx < GW and 0 <= ny < GH): continue
             if not passable[L][ny, nx]: continue
-            nc = cost + w * PITCH
+            slack = max(float(dist[L][ny, nx]) - r_inf, 0.0)
+            congestion = 1.0 + CONGESTION_WEIGHT / (1.0 + slack / CONGESTION_DECAY)
+            nc = cost + w * PITCH * congestion
             if nc < g[L][ny, nx] - 1e-9:
                 g[L][ny, nx] = nc
                 parent[L][ny, nx] = (L * GH + yy) * GW + xx

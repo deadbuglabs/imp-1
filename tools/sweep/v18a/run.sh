@@ -123,6 +123,7 @@ PHASE_D="GND:0.5,0.4 V3_3:0.5,0.4"
 case "$VARIANT" in
   astar-0.02|astar-0.05|astar-0.09)
     MF=${VARIANT#astar-}
+    export SWEEP_CONGESTION_WEIGHT=${SWEEP_CONGESTION_WEIGHT:-1.5}
     # blib needs numpy/PIL/scipy; the workflow installs kicad only, so fetch
     # them here if missing (apt, same lists the workflow already updated).
     python3 -c "import numpy, PIL, scipy, wx, pcbnew" 2>/dev/null || {

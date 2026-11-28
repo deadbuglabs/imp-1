@@ -8,6 +8,7 @@ import numpy as np
 
 BOARD, PLAN_OUT, LOGF = sys.argv[1], sys.argv[2], sys.argv[3]
 blib.MF = float(sys.argv[4])
+blib.CONGESTION_WEIGHT = float(os.environ.get("SWEEP_CONGESTION_WEIGHT", "0"))
 LOG = open(LOGF, 'w')
 JOBS = []
 for spec in sys.argv[5:]:

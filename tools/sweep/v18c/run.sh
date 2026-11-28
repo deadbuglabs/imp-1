@@ -134,6 +134,7 @@ STAGE_2="V3_3:0.5,0.4 A9_5V:0.5,0.4"
 case "$VARIANT" in
   astar-0.02|astar-0.05|astar-0.09)
     MF=${VARIANT#astar-}
+    export SWEEP_CONGESTION_WEIGHT=${SWEEP_CONGESTION_WEIGHT:-1.5}
     python3 -c "import numpy, PIL, scipy, wx, pcbnew" 2>/dev/null || {
       log "installing python3-numpy python3-pil python3-scipy for blib"
       sudo apt-get install -y -qq python3-numpy python3-pil python3-scipy || { log "DEP FAIL: cannot install blib deps"; exit 1; }
