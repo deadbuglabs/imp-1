@@ -1,0 +1,36 @@
+{
+  "schema": "imp2-sweep-result/1",
+  "board": "imp2",
+  "run_number": 8,
+  "run_id": "46119163737",
+  "family": "toolchain",
+  "variant": "imp2-baseline",
+  "status": "toolchain-ok",
+  "reason": "IMP-2 baseline DRC reproduced on runner",
+  "reference": {
+    "unconnected": 134,
+    "shorts": 0,
+    "clearance": 12
+  },
+  "verdict_vs_reference": "tie",
+  "drc": {
+    "unconnected": 134,
+    "clearance": 12,
+    "shorts": 0,
+    "total": 412,
+    "footprint_errors": 0,
+    "copper_edge_clearance": 9,
+    "drill_out_of_range": 12,
+    "hole_clearance": 1,
+    "lib_footprint_issues": 143,
+    "silk_edge_clearance": 10,
+    "silk_over_copper": 81,
+    "silk_overlap": 108,
+    "starved_thermal": 36,
+    "unconnected_items": 134,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": null,
+  "board_md5": "4864210b6cce60b3e11ee53a8a3a5d43",
+  "finished_utc": "2026-11-28T07:01:04Z"
+}
