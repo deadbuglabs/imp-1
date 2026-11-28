@@ -1,0 +1,35 @@
+{
+  "schema": "imp1-sweep-v18a-state/1",
+  "cell": "S13",
+  "chunk": 0,
+  "stall": 0,
+  "done_phases": [
+    "D-pours-first",
+    "A-power"
+  ],
+  "last_drc": {
+    "unconnected": 83,
+    "clearance": 3,
+    "shorts": 0,
+    "total": 525,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 8,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 53,
+    "unconnected_items": 83,
+    "via_dangling": 8,
+    "unconnected_from": "header"
+  },
+  "ses_files": [],
+  "plan_files": [
+    "S13/plans/plan_D-pours-first.json",
+    "S13/plans/plan_A-power.json"
+  ],
+  "updated_utc": "2026-11-28T17:03:33Z",
+  "run_number": 9
+}
