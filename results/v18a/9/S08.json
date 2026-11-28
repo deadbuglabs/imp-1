@@ -1,0 +1,65 @@
+{
+  "schema": "imp1-sweep-result/1",
+  "run_number": 9,
+  "run_id": "46167378409",
+  "family": "v18a",
+  "variant": "S08",
+  "status": "done",
+  "reason": "astar-complete phases=A-power B-cage C-signals D-pours unc=48",
+  "v15_reference": {
+    "unconnected": 15,
+    "shorts": 0,
+    "clearance": 0
+  },
+  "verdict_vs_v15": "no-beat",
+  "drc": {
+    "unconnected": 48,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 507,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 4,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 42,
+    "unconnected_items": 48,
+    "via_dangling": 8,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": {
+    "unconnected": 146,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 525,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 4,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 59,
+    "unconnected_items": 146,
+    "via_dangling": 9,
+    "unconnected_from": "header"
+  },
+  "board_md5": "954056cba8a4f9b31ecf3abaf5e473f4",
+  "finished_utc": "2026-11-28T17:25:44Z",
+  "cell_state": {
+    "chunks": 0,
+    "stall": 0,
+    "done_phases": [
+      "A-power",
+      "B-cage",
+      "C-signals",
+      "D-pours"
+    ],
+    "resume_from": "pristine",
+    "checkpoint_ref": "results/v18a/S08-state.json"
+  }
+}

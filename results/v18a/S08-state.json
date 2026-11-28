@@ -1,0 +1,39 @@
+{
+  "schema": "imp1-sweep-v18a-state/1",
+  "cell": "S08",
+  "chunk": 0,
+  "stall": 0,
+  "done_phases": [
+    "A-power",
+    "B-cage",
+    "C-signals",
+    "D-pours"
+  ],
+  "last_drc": {
+    "unconnected": 48,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 507,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 4,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 42,
+    "unconnected_items": 48,
+    "via_dangling": 8,
+    "unconnected_from": "header"
+  },
+  "ses_files": [],
+  "plan_files": [
+    "S08/plans/plan_A-power.json",
+    "S08/plans/plan_B-cage.json",
+    "S08/plans/plan_C-signals.json",
+    "S08/plans/plan_D-pours.json"
+  ],
+  "updated_utc": "2026-11-28T17:25:44Z",
+  "run_number": 9
+}
