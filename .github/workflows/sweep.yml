@@ -247,7 +247,7 @@ jobs:
               r = json.load(open(p))
           except Exception as e:
               print('no results JSON:', e)
-                  raise SystemExit(0)
+              raise SystemExit(0)
           d = r.get('drc') or {}
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as fh:
               fh.write('## %s / %s — %s\n\n' % (r['family'], r['variant'], r['status']))
