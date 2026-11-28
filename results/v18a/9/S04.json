@@ -1,0 +1,62 @@
+{
+  "schema": "imp1-sweep-result/1",
+  "run_number": 9,
+  "run_id": "46167378409",
+  "family": "v18a",
+  "variant": "S04",
+  "status": "failfast",
+  "reason": "failfast after phase A-power unc=114",
+  "v15_reference": {
+    "unconnected": 15,
+    "shorts": 0,
+    "clearance": 0
+  },
+  "verdict_vs_v15": "no-beat",
+  "drc": {
+    "unconnected": 114,
+    "clearance": 6,
+    "shorts": 0,
+    "total": 530,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 8,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 54,
+    "unconnected_items": 114,
+    "via_dangling": 9,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": {
+    "unconnected": 146,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 525,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 4,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 59,
+    "unconnected_items": 146,
+    "via_dangling": 9,
+    "unconnected_from": "header"
+  },
+  "board_md5": "9f00544e9c24bb125b84bf1bb260a0b9",
+  "finished_utc": "2026-11-28T16:55:21Z",
+  "cell_state": {
+    "chunks": 0,
+    "stall": 0,
+    "done_phases": [
+      "A-power"
+    ],
+    "resume_from": "pristine",
+    "checkpoint_ref": "results/v18a/S04-state.json"
+  }
+}
