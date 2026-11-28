@@ -28,7 +28,7 @@ name: IMP-1 placement sweep
 on:
   schedule:
     - cron: '0 */4 * * *'
-    workflow_dispatch:
+workflow_dispatch:
     inputs:
       families:
         description: 'Families to run, comma-separated, most promising first'
