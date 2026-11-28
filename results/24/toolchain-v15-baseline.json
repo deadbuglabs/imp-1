@@ -1,0 +1,36 @@
+{
+  "schema": "imp1-sweep-result/1",
+  "run_number": 24,
+  "run_id": "46134932381",
+  "family": "toolchain",
+  "variant": "v15-baseline",
+  "status": "toolchain-ok",
+  "reason": "v15 baseline DRC reproduced on runner",
+  "v15_reference": {
+    "unconnected": 15,
+    "shorts": 0,
+    "clearance": 0
+  },
+  "verdict_vs_v15": "tie",
+  "drc": {
+    "unconnected": 15,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 495,
+    "footprint_errors": 0,
+    "courtyards_overlap": 35,
+    "hole_clearance": 4,
+    "items_not_allowed": 33,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 75,
+    "silk_overlap": 199,
+    "track_dangling": 17,
+    "unconnected_items": 15,
+    "via_dangling": 12,
+    "unconnected_from": "header"
+  },
+  "baseline_drc": null,
+  "board_md5": "80ca73516db8dbfb689ed46fae7b35cc",
+  "finished_utc": "2026-11-28T10:23:48Z"
+}
