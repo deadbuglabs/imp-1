@@ -1,0 +1,29 @@
+{
+  "schema": "imp1-sweep-v18a-state/1",
+  "cell": "S01",
+  "chunk": 0,
+  "stall": 0,
+  "done_phases": [],
+  "last_drc": {
+    "unconnected": 146,
+    "clearance": 0,
+    "shorts": 0,
+    "total": 525,
+    "footprint_errors": 0,
+    "courtyards_overlap": 27,
+    "hole_clearance": 4,
+    "items_not_allowed": 31,
+    "lib_footprint_issues": 93,
+    "silk_edge_clearance": 27,
+    "silk_over_copper": 76,
+    "silk_overlap": 199,
+    "track_dangling": 59,
+    "unconnected_items": 146,
+    "via_dangling": 9,
+    "unconnected_from": "header"
+  },
+  "ses_files": [],
+  "plan_files": [],
+  "updated_utc": "2026-11-28T16:53:17Z",
+  "run_number": 9
+}
